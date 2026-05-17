@@ -1,0 +1,9 @@
+GOOGLE CLOUD
+001 - Criar um servidor
+002 - Criar uma instância de VM (Computer Engine) => E2(mais barata) -> medium
+003 - Sistema Operacional - Ubuntu (x86/64), amd64
+004 - Rede - Permitir HTTP, HTTPs
+005 - Cria a VM
+006 - Na VM em Rede VPC
+007 - Em Meta criar chave ssh
+008 - Entre no ssh com nome@ssh do google

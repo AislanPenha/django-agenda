@@ -1,0 +1,9 @@
+git add .
+git commit -m 'texto'
+git remote -v
+git push agendarepo main
+
+#no servidor, na pasta agendaapp
+git pul agendarepo main
+sudo systemctl restart agenda
+sudo systemctl restart nginx

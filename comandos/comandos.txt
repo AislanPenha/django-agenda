@@ -1,0 +1,40 @@
+# Importe o módulo
+from contact.models import Contact
+
+# Cria um contato (Lazy=> não vai no BD)
+# Retorna o contato
+contact = Contact(first_name = 'aislan')
+contact.save()
+
+# Cria um contato (Não lazy)
+# Retorna o contato
+contact = Contact.objects.create(first_name = 'aislan')
+
+# Seleciona um contato com id 10
+# Retorna o contato
+contact = Contact.objects.get(pk=10)
+
+# Edita um contato
+# Retorna o contato
+contact.last_name = 'Novo valor 1'
+contact.phone = 'Novo valor 2'
+contact.save()
+
+# Apaga um contato
+# Depende da base de dados, geralmente retorna o número
+# de valores manipulados na base de dados
+contact.delete()
+
+# Seleciona todos os contatos ordenando por id DESC
+# Retorna QuerySet[]
+contacts = Contact.objects.all().order_by('-id')
+
+# Seleciona contatos usando filtros
+# Retorna QuerySet[]
+contacts = Contact.objects.filter(pk=10).order_by('-id')
+
+# Criar um User padrão do Django
+from django.contrib.auth.models import User
+user = user.objects.create_user(username='aislan',password='123')
+user.is_staff = True
+user.save()
