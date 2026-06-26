@@ -196,3 +196,11 @@ client_max_body_size 30M;
 ```
 sudo systemctl restart nginx
 ```
+## Para o SSL arquivos maiores no nginx
+
+https://letsencrypt.org/ cria de modo seguro e gratuito em SSL
+
+vai para o nginx-https.txt
+
+# Para olhar os errors
+tail -f /var/log/nginx/subdominio.dominio.com.br-error.log

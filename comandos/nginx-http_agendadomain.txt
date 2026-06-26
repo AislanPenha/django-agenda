@@ -1,0 +1,108 @@
+# para o HTTPS
+# só esse link simbólico
+# está na pasta /etc/nginx/sites-available/agendomain e depois faz um link simbólico no ../sites-enable
+# local_settings.py e acrescente o subdominio
+SECRET_KEY = 'WiMu^04VI8DCG/c)7o),@m*vux8o#21QBZ[rlnAXY}7q#z[Ew|_qG4_lzQ$*9UZ'
+
+# # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = [
+    '34.134.138.77',
+    'subnomino.dominio.com.br' se tiver
+]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'projeto_agenda',
+        'USER': 'aislan',
+        'PASSWORD': 'ap100267',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+# sudo systemctl restart agenda
+# sudo systemctl restart nginx
+
+# https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/
+#
+# REPLACES
+# subnomino.dominio.com.br = Replace with your domain
+# /home/aislan.penha/agendaapp/ = Replace with the path to the folder for the project
+# /home/aislan.penha/agendaapp/static/ = Replace with the path to the folder for static files
+# /home/aislan.penha/agendaapp/media/ = Replace with the path to the folder for media files
+# agenda = Replace with your unix socket name (don't add .socket)
+# 
+# Set timezone
+# List - timedatectl list-timezones
+# sudo timedatectl set-timezone America/Sao_Paulo
+#
+# HTTP
+server {
+  listen 80;
+  listen [::]:80;
+  server_name subnomino.dominio.com.br;
+
+  # Add index.php to the list if you are using PHP
+  index index.html index.htm index.nginx-debian.html index.php;
+  
+  # ATTENTION: /home/aislan.penha/agendaapp/static/
+  location /static {
+    autoindex on;
+    alias /home/aislan.penha/agendaapp/static/;
+  }
+
+  # ATTENTION: /home/aislan.penha/agendaapp/media/ 
+  location /media {
+    autoindex on;
+    alias /home/aislan.penha/agendaapp/media/;
+  }
+
+  # ATTENTION: agenda
+  location / {
+    proxy_pass http://unix:/run/agenda.socket;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+
+  # deny access to .htaccess files, if Apache's document root
+  # concurs with nginx's one
+  #
+  location ~ /\.ht {
+    deny all;
+  }
+
+  location ~ /\. {
+    access_log off;
+    log_not_found off;
+    deny all;
+  }
+
+  gzip on;
+  gzip_disable "msie6";
+
+  gzip_comp_level 6;
+  gzip_min_length 1100;
+  gzip_buffers 4 32k;
+  gzip_proxied any;
+  gzip_types
+    text/plain
+    text/css
+    text/js
+    text/xml
+    text/javascript
+    application/javascript
+    application/x-javascript
+    application/json
+    application/xml
+    application/rss+xml
+    image/svg+xml;
+
+  access_log off;
+  #access_log  /var/log/nginx/subnomino.dominio.com.br-access.log;
+  error_log   /var/log/nginx/subnomino.dominio.com.br-error.log;
+}
