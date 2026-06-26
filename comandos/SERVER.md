@@ -136,7 +136,7 @@ python3.11 -m venv venv
 pip install --upgrade pip
 pip install django
 pip install pillow
-pip install gunicorn # sobe as aplicações com ele em vez de python manage.py runserver
+pip install gunicorn # sobe as aplicações com ele em vez de python manage.py runserver => comunicação do ngnix com django
 pip install psycopg # para usar o postgresql
 pip install faker
 pip install whitenoise
